@@ -152,18 +152,32 @@ class DBHelper {
   static imageUrlForRestaurant(restaurant) {
     return (`/img/${restaurant.photograph}`);
   }
+  /**
+   * Restaurant SMALL image URL.
+   */
+  static smallImageUrlForRestaurant(restaurant) {
+    return (`/img/${restaurant.photographSmall} 1x, /img/${restaurant.photograph} 2x`);
+  }
+
+/**
+   * ALT Description for URL.
+   */
+  static imageAltForRestaurant(restaurant) {
+    return (`${restaurant.alt}`);
+  }
+
 
   /**
    * Map marker for a restaurant.
    */
-   static mapMarkerForRestaurant(restaurant, map) {
+  static mapMarkerForRestaurant(restaurant, map) {
     // https://leafletjs.com/reference-1.3.0.html#marker
-    const marker = new L.marker([restaurant.latlng.lat, restaurant.latlng.lng],
-      {title: restaurant.name,
+    const marker = new L.marker([restaurant.latlng.lat, restaurant.latlng.lng], {
+      title: restaurant.name,
       alt: restaurant.name,
       url: DBHelper.urlForRestaurant(restaurant)
-      })
-      marker.addTo(newMap);
+    })
+    marker.addTo(newMap);
     return marker;
   }
   /* static mapMarkerForRestaurant(restaurant, map) {
@@ -178,4 +192,3 @@ class DBHelper {
   } */
 
 }
-

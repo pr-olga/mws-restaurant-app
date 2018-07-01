@@ -22,7 +22,7 @@ gulp.task('resize', function (cb) {
         .pipe(gulp.dest('img'), cb));
 });
 
-gulp.task('image', function () {
+gulp.task('image', ['resize'], function () {
     console.log('>---Starting Images function---<');
     gulp.src(['img/*_small.jpg'])
         .pipe(image({
