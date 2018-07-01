@@ -1,0 +1,114 @@
+#restaurant-container {
+  width: calc(80% - 20px);
+  margin: 0 auto 0;
+}
+
+#restaurant-hours td {
+  color: $text;
+}
+
+#restaurant-name {
+  color: $red;
+  font-family: Arial, sans-serif;
+  font-size: 2em;
+  font-weight: 200;
+  letter-spacing: 0;
+  margin: 30px 0;
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+
+#restaurant-img {
+  max-width: 500px;
+  width: 90%;
+}
+
+#restaurant-address {
+  font-size: 12pt;
+  margin: 10px 0px;
+}
+
+#restaurant-cuisine {
+  max-width: 500px;
+  background-color: $text;
+  color: #ddd;
+  font-size: 12pt;
+  font-weight: 300;
+  letter-spacing: 10px;
+  margin: 0 0 20px;
+  padding: 2px 0;
+  text-align: center;
+  text-transform: uppercase;
+  width: 90%;
+}
+
+/* BEGIN: Reviews Container */
+
+#reviews-container {
+  width: calc(80% - 20px);
+  margin: 0 auto 0;
+  padding: 30px 40px 80px;
+}
+
+#reviews-container h2 {
+  color: #aa2e00;
+  font-size: 24pt;
+  font-weight: 300;
+  letter-spacing: -1px;
+  padding-bottom: 1pt;
+}
+
+#reviews-list {
+  margin: 0;
+  padding: 0;
+  li {
+    max-width: 500px;
+    background-color: $white;
+    border: 2px solid $background;
+    display: block;
+    list-style-type: none;
+    margin: 0 0 30px;
+    position: relative;
+    width: 100%;
+    div:nth-of-type(1) {
+      width: 100%;
+      border-radius: 25px 0 0 0;
+      background-color: $text;
+      p {
+        width: calc((80%-20px)/2);
+        margin-left: 20px;
+        &:nth-of-type(1) {
+          display: inline-block;
+          text-align: left;
+          font-size: 1.5em;
+          color: $white;
+        }
+        &:nth-of-type(2) {
+          display: inline-block;
+          text-align: right;
+          color: rgba(255, 255, 255, 0.9);
+          font-size: 1em;
+        }
+      }
+    }
+  }
+  .div-content {
+    padding: 5px 20px 20px 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.10), 0 1px 2px rgba(0, 0, 0, 0.12);
+    transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+  }
+  li .div-content>p:nth-of-type(1) {
+    width: 80px;
+    padding: 3px 5px;
+    border-radius: 2px;
+    background-color: $red;
+    color: $white;
+    text-align: center;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  .div-content>p:nth-of-type(2) {
+    color: $text;
+    font-size: 1.2em;
+  }
+}

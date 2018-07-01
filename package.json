@@ -14,8 +14,11 @@
   "license": "ISC",
   "devDependencies": {
     "browser-sync": "^2.24.4",
+    "csscomb": "^4.2.0",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^5.0.0",
+    "gulp-cssbeautify": "^1.0.0",
+    "gulp-csscomb": "^3.0.8",
     "gulp-image": "^4.3.0",
     "gulp-images-resizer": "0.0.5",
     "gulp-plumber": "^1.2.0",

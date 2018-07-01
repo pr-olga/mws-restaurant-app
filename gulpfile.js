@@ -3,6 +3,7 @@ const gulp = require('gulp'),
     reload = browserSync.reload,
     sass = require('gulp-sass'),
     autoprefixer = require('gulp-autoprefixer'),
+    cssbeautify = require('gulp-cssbeautify'),
     resizer = require('gulp-images-resizer'),
     image = require('gulp-image'),
     plumber = require('gulp-plumber'),
@@ -45,17 +46,23 @@ gulp.task('browser-sync', function () {
 // creating the task SASS
 // Compile sass into readable .css
 gulp.task('sass', function () {
-    gulp.src(['./scss/*.scss'])
+    gulp.src(['sass/*.scss'])
         .pipe(plumber())
-        .pipe(wait(500))
         .pipe(sass())
         .pipe(autoprefixer('last 2 versions'))
-        .pipe(gulp.dest('./css/'));
+        .pipe(gulp.dest('css/'));
 });
 
+// beatify the code separately if needed
+gulp.task('beutify',  function() {
+    return gulp.src('css/styles.css')
+        .pipe(cssbeautify())
+        .pipe(gulp.dest('css/style.css'));
+});
 
 gulp.task('watch', function () {
     gulp.watch(["*.html", "*/*.css", "*/*.js", "*.*"]).on('change', reload);
+    gulp.watch(['sass/*/*.scss', 'sass/*.scss'],  ['sass']);
 });
 
 gulp.task('default', ['browser-sync', 'watch']);

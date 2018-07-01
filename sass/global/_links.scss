@@ -1,0 +1,12 @@
+a {
+  color: $red;
+  text-decoration: none;
+  &:hover,
+  &:focus {
+    color: $blue;
+    text-decoration: none;
+  }
+  picture {
+    border: none;
+  }
+}

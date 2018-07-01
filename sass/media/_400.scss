@@ -1,0 +1,17 @@
+@media screen and (min-width: 409px) {
+  nav h1 {
+    padding: 1em 0;
+  }
+}
+
+@media screen and (min-width: 580px) and (max-width: 700px),
+(min-width: 1280px) {
+  #restaurants-list li {
+    h2 {
+      min-height: 48px;
+    }
+    p:last-of-type {
+      min-height: 44px;
+    }
+  }
+}
