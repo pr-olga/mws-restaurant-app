@@ -62,14 +62,14 @@
   margin: 0;
   padding: 0;
   li {
-    max-width: 500px;
-    background-color: $white;
-    border: 2px solid $background;
     display: block;
-    list-style-type: none;
-    margin: 0 0 30px;
     position: relative;
+    max-width: 500px;
     width: 100%;
+    margin: 0 0 30px;
+    border: 2px solid $background;
+    background-color: $white;
+    list-style-type: none;
     div:nth-of-type(1) {
       width: 100%;
       border-radius: 25px 0 0 0;

@@ -5,8 +5,15 @@ a {
   &:focus {
     color: $blue;
     text-decoration: none;
+    outline: 1px solid $blue;
   }
-  picture {
-    border: none;
-  }
+}
+
+li>a:hover img {
+  opacity: .4;
+}
+
+li>a:focus img {
+  opacity: .4;
+  outline: 2px solid $blue;
 }
