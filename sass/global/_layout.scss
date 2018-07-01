@@ -31,31 +31,6 @@ nav {
     }
   }
 }
-
-/* #breadcrumb {
-  padding: 10px 40px 16px;
-  list-style: none;
-  margin: 0;
-  li {
-    display: inline;
-    font-size: 1.4em; // Add a slash symbol (/) before/behind each list item
-    &+li:before {
-      padding: 8px;
-      color: $black;
-      content: "/\00a0";
-    } // Add a color to all links inside the list
-    a {
-      color: $red;
-      text-decoration: none; // Add a color on mouse-over
-      &:hover {
-        color: $blue;
-        text-decoration: underline;
-      }
-    }
-  }
-}
- */
-
 #breadcrumb {
   margin: 0;
   padding: 10px 40px 16px;
@@ -72,7 +47,7 @@ nav {
     a {
       color: #aa2e00;
       text-decoration: none;
-      /* Add a color on mouse-over */
+      // Add a color on mouse-over
       &:hover {
         color: #01447e;
         text-decoration: underline;
@@ -98,7 +73,7 @@ nav {
   }
 }
 
-/* BEGIN: Map */
+/* Map */
 
 .inside #map-container,
 #map-container {

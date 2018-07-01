@@ -4,8 +4,11 @@
 
 @import 'global/import';
 @import 'global/colors';
+/* Main structure */
 @import 'global/structure';
+/* Layout */
 @import 'global/layout';
+/* Links */
 @import 'global/links';
 
 
@@ -14,7 +17,10 @@
   Pages
 ========================================================================== */
 
+/* Main page */
 @import 'pages/index';
+
+/* Single restaurant page */
 @import 'pages/restaurant';
 
 /*

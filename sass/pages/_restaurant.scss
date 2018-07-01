@@ -1,3 +1,5 @@
+/*  Restaurant Container */
+
 #restaurant-container {
   width: calc(80% - 20px);
   margin: 0 auto 0;
@@ -8,12 +10,12 @@
 }
 
 #restaurant-name {
+  margin: 30px 0;
   color: $red;
   font-family: Arial, sans-serif;
   font-size: 2em;
   font-weight: 200;
   letter-spacing: 0;
-  margin: 30px 0;
   text-transform: uppercase;
   line-height: 1.1;
 }
@@ -30,19 +32,19 @@
 
 #restaurant-cuisine {
   max-width: 500px;
+  width: 90%;
+  margin: 0 0 20px;
+  padding: 2px 0;
   background-color: $text;
   color: #ddd;
   font-size: 12pt;
   font-weight: 300;
   letter-spacing: 10px;
-  margin: 0 0 20px;
-  padding: 2px 0;
   text-align: center;
   text-transform: uppercase;
-  width: 90%;
 }
 
-/* BEGIN: Reviews Container */
+/*  Reviews Container */
 
 #reviews-container {
   width: calc(80% - 20px);
@@ -51,11 +53,11 @@
 }
 
 #reviews-container h2 {
+  padding-bottom: 1pt;
   color: #aa2e00;
   font-size: 24pt;
   font-weight: 300;
   letter-spacing: -1px;
-  padding-bottom: 1pt;
 }
 
 #reviews-list {
