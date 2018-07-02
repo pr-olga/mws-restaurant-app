@@ -59,6 +59,7 @@ self.addEventListener('activate', function (e) {
 });
 
 self.addEventListener('fetch', function(event) {
+    console.log(`Fetching FROM: ${event.request.url}`)
     event.respondWith(
         // open the certain cache
         caches.open('version1').then(function(cache) {
