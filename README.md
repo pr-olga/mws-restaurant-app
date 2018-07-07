@@ -1,4 +1,42 @@
 # Mobile Web Specialist Certification Course
+
+## Development Modifications: Fixing SW
+
+- cache.open() was added to fetch event. The fetch event did not happend, that is why, the method for opening the certain cache was added.
+- the path to the cache files was changed: "/" -> "./"
+- the SW scope was changed: "./" -> "/"
+- in order to test the appropriate work of SW on GitHub Pages, the following routes were changed:
+    - in dbhelpers.js
+    ```javascript
+    static get DATABASE_URL() {
+    const port = 3000
+    // return `http://localhost:${port}/data/restaurants.json`;
+
+    return `./data/restaurants.json`;
+    }
+    ```
+
+   ```javascript
+  static imageUrlForRestaurant(restaurant) {
+    return (`./img/${restaurant.photograph}`);
+  }
+```
+```javascript
+ static urlForRestaurant(restaurant) {
+    return (`./restaurant.html?id=${restaurant.id}`);
+  }
+```
+```javascript
+static smallImageUrlForRestaurant(restaurant) {
+    return (`./img/${restaurant.photographSmall} 1x, /img/${restaurant.photograph} 2x`);
+  }
+```
+    - in app.js
+```javascript
+    .register('sw.js', {scope: '/mws-restaurant-stage-1/'})
+```
+
+
 ## This Project runs on localhost:3000
 ---
 #### _Three Stage Course Material Project - Restaurant Reviews_
