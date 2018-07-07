@@ -14,23 +14,21 @@
 
     return `./data/restaurants.json`;
     }
-    ```
 
-   ```javascript
-  static imageUrlForRestaurant(restaurant) {
+     static imageUrlForRestaurant(restaurant) {
     return (`./img/${restaurant.photograph}`);
-  }
-```
-```javascript
- static urlForRestaurant(restaurant) {
+     }
+
+
+    static urlForRestaurant(restaurant) {
     return (`./restaurant.html?id=${restaurant.id}`);
-  }
-```
-```javascript
-static smallImageUrlForRestaurant(restaurant) {
+     }
+
+
+    static smallImageUrlForRestaurant(restaurant) {
     return (`./img/${restaurant.photographSmall} 1x, /img/${restaurant.photograph} 2x`);
-  }
-```
+    }
+    ```
     - in app.js
 ```javascript
     .register('sw.js', {scope: '/mws-restaurant-stage-1/'})
