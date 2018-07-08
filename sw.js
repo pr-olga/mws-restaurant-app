@@ -3,7 +3,7 @@ var cacheFiles = [
     './',
     './restaurant.html',
     './css/styles.css',
-    './img/1.jpg',
+/*     './img/1.jpg',
     './img/2.jpg',
     './img/3.jpg',
     './img/4.jpg',
@@ -12,14 +12,14 @@ var cacheFiles = [
     './img/7.jpg',
     './img/8.jpg',
     './img/9.jpg',
-    './img/10.jpg',
+    './img/10.jpg', */
     './js/main.js',
     './js/dbhelper.js',
     './js/restaurant_info.js',
     './js/picturefill.js',
-    './data/restaurants.json',
+/*     './data/restaurants.json', */
     './app.js',
-    'https://api.tiles.mapbox.com/v4/mapbox.streets/12/1206/1539.jpg70?access_token=pk.eyJ1IjoicHItb2xnYSIsImEiOiJjaml3MmEzcDcwZjF6M2tvc2dsc2xhcW9jIn0.C3eNrk94kkZnqDbrgN4pow ',
+/*     'https://api.tiles.mapbox.com/v4/mapbox.streets/12/1206/1539.jpg70?access_token=pk.eyJ1IjoicHItb2xnYSIsImEiOiJjaml3MmEzcDcwZjF6M2tvc2dsc2xhcW9jIn0.C3eNrk94kkZnqDbrgN4pow ',
     'https://api.tiles.mapbox.com/v4/mapbox.streets/12/1206/1540.jpg70?access_token=pk.eyJ1IjoicHItb2xnYSIsImEiOiJjaml3MmEzcDcwZjF6M2tvc2dsc2xhcW9jIn0.C3eNrk94kkZnqDbrgN4pow',
     'https://api.tiles.mapbox.com/v4/mapbox.streets/12/1207/1540.jpg70?access_token=pk.eyJ1IjoicHItb2xnYSIsImEiOiJjaml3MmEzcDcwZjF6M2tvc2dsc2xhcW9jIn0.C3eNrk94kkZnqDbrgN4pow',
     'https://api.tiles.mapbox.com/v4/mapbox.streets/12/1205/1540.jpg70?access_token=pk.eyJ1IjoicHItb2xnYSIsImEiOiJjaml3MmEzcDcwZjF6M2tvc2dsc2xhcW9jIn0.C3eNrk94kkZnqDbrgN4pow',
@@ -29,7 +29,7 @@ var cacheFiles = [
     'https://unpkg.com/leaflet@1.3.1/dist/leaflet.css',
     'https://unpkg.com/leaflet@1.3.1/dist/images/marker-shadow.png',
     'https://unpkg.com/leaflet@1.3.1/dist/images/marker-icon-2x.png',
-    'https://unpkg.com/leaflet@1.3.1/dist/images/marker-icon.png'
+    'https://unpkg.com/leaflet@1.3.1/dist/images/marker-icon.png' */
 
 ]
 

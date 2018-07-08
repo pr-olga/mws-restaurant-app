@@ -9,12 +9,13 @@ class DBHelper {
    */
   static get DATABASE_URL() {
     const port = 3000 // Change this to your server port
-   //return `http://localhost:${port}/data/restaurants.json`;
-   return `./data/restaurants.json`
+   return `http://localhost:${port}/data/restaurants.json`;
+   //return `./data/restaurants.json`
   }
 
   /**
    * Fetch all restaurants.
+   * http://localhost:1337/restaurants
    */
   static fetchRestaurants(callback) {
     let xhr = new XMLHttpRequest();
@@ -34,6 +35,7 @@ class DBHelper {
 
   /**
    * Fetch a restaurant by its ID.
+   * http://localhost:1337/restaurants/{3}
    */
   static fetchRestaurantById(id, callback) {
     // fetch all restaurants with proper error handling.
