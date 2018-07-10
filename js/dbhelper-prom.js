@@ -21,18 +21,38 @@ class DBHelper {
                 return error;
             });
     }
+
+
+
     /**
      * Fetch a restaurant by its ID.
      * http://localhost:1337/restaurants/{3}
      */
+    // THIS ONE WORKS
     static fetchRestaurantById(id) {
         // fetch all restaurants with proper error handling.
         return DBHelper.fetchRestaurants()
             .then(restaurants => {
                 const restaurant = restaurants.find(r => r.id == id);
+                console.log(restaurant.operating_hours);
                 return restaurant;
             });
     }
+
+    /**
+     * Fetch restaurants by hours
+     */
+     // THIS ONE DOES NOT ????
+    static fetchRestaurantByHours(id) {
+        // Fetch all restaurants  with proper error handling
+        return DBHelper.fetchRestaurants()
+            .then(restaurants => {
+                const restaurant = restaurants.find(r => r.id == id);
+                console.log(restaurant.operating_hours);
+                return restaurant.operating_hours;
+            });
+    }
+
 
     /**
      * Fetch restaurants by a cuisine type with proper error handling.
