@@ -127,7 +127,7 @@ function fetchMarker() {
 
 function mapMarkerForRestaurant(restaurants) {
   // https://leafletjs.com/reference-1.3.0.html#marker
-   restaurants.map((restauranta) => {
+  restaurants.map((restauranta) => {
     const marker = new L.marker([restauranta.latlng.lat, restauranta.latlng.lng], {
       title: restauranta.name,
       alt: restauranta.name,
@@ -141,3 +141,5 @@ function mapMarkerForRestaurant(restaurants) {
     });
   });
 }
+
+
