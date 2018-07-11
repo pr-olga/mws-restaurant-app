@@ -23,7 +23,6 @@ class DBHelper {
     }
 
 
-
     /**
      * Fetch a restaurant by its ID.
      * http://localhost:1337/restaurants/{3}
@@ -34,22 +33,7 @@ class DBHelper {
         return DBHelper.fetchRestaurants()
             .then(restaurants => {
                 const restaurant = restaurants.find(r => r.id == id);
-                console.log(restaurant.operating_hours);
-                return restaurant;
-            });
-    }
-
-    /**
-     * Fetch restaurants by hours
-     */
-     // THIS ONE DOES NOT ????
-    static fetchRestaurantByHours(id) {
-        // Fetch all restaurants  with proper error handling
-        return DBHelper.fetchRestaurants()
-            .then(restaurants => {
-                const restaurant = restaurants.find(r => r.id == id);
-                console.log(restaurant.operating_hours);
-                return restaurant.operating_hours;
+              return restaurant;
             });
     }
 
@@ -162,7 +146,6 @@ class DBHelper {
     static imageAltForRestaurant(restaurant) {
         return (`${restaurant.alt}`);
     }
-
 
     /**
      * Map marker for a restaurant.

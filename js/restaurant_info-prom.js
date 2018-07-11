@@ -2,20 +2,21 @@ let restaurant;
 var newMap;
 
 /**
- * Initialize map as soon as the page is loaded.
+ * Initialize map and current restaurant from page URL as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
   initMap();
+  fetchRestaurantFromURL();
+  fetchRestaurantFromURL2();
 });
 
 /**
  * Initialize leaflet map
  */
 initMap = () => {
-  fetchRestaurantFromURL((error, restaurant) => {
-    if (error) { // Got an error!
-      console.error(error);
-    } else {
+  const id = getParameterByName('id');
+  DBHelper.fetchRestaurantById(id)
+    .then((restaurant = self.restaurant) => {
       self.newMap = L.map('map', {
         center: [restaurant.latlng.lat, restaurant.latlng.lng],
         zoom: 16,
@@ -29,24 +30,24 @@ initMap = () => {
           'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
         id: 'mapbox.streets'
       }).addTo(newMap);
-      fillBreadcrumb();
-      DBHelper.mapMarkerForRestaurant(self.restaurant, self.newMap);
-    }
-  });
+      return DBHelper.mapMarkerForRestaurant(restaurant, newMap);
+    });
 }
+
+
 
 
 /**
  * Get current restaurant from page URL.
  */
 fetchRestaurantFromURL = () => {
-
   const id = getParameterByName('id');
   console.log(id);
-  return DBHelper.fetchRestaurantById(id)
+  DBHelper.fetchRestaurantById(id)
     .then(fillRestaurantHTML);
 
 }
+
 
 
 /**
@@ -79,67 +80,46 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
 
   // fill operating hours
   if (restaurant.operating_hours) {
-    fetchHours();
+    const hours = document.getElementById('restaurant-hours');
+    const operatingHours = (restaurant.operating_hours);
+    for (let key in operatingHours) {
+      const row = document.createElement('tr');
+
+      const day = document.createElement('td');
+      day.innerHTML = key;
+      row.appendChild(day);
+
+      const time = document.createElement('td');
+      time.innerHTML = operatingHours[key];
+      row.appendChild(time);
+
+      hours.appendChild(row);
+    }
   }
   // fill reviews
-  fillReviewsHTML();
-}
-
-/**
- * Create restaurant operating hours HTML table and add it to the webpage.
- */
-
-fetchHours = () => {
-  const id = getParameterByName('id');
-  console.log(id);
-  return DBHelper.fetchRestaurantByHours()
-    .then(fillRestaurantHoursHTML);
-
-
-}
-
-fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => {
-  const hours = document.getElementById('restaurant-hours');
-  for (let key in operatingHours) {
-    const row = document.createElement('tr');
-
-    const day = document.createElement('td');
-    day.innerHTML = key;
-    row.appendChild(day);
-
-    const time = document.createElement('td');
-    time.innerHTML = operatingHours[key];
-    row.appendChild(time);
-
-    hours.appendChild(row);
-  }
-}
-
-/**
- * Create all reviews HTML and add them to the webpage.
- */
-fillReviewsHTML = (reviews) => {
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h3');
   title.innerHTML = 'Reviews';
   container.appendChild(title);
 
-  if (!reviews) {
+  if (!restaurant.reviews) {
     const noReviews = document.createElement('p');
     noReviews.innerHTML = 'No reviews yet!';
     container.appendChild(noReviews);
     return;
   }
   const ul = document.getElementById('reviews-list');
-  reviews.forEach(review => {
+  restaurant.reviews.forEach(review => {
     ul.appendChild(createReviewHTML(review));
   });
   container.appendChild(ul);
+
 }
 
 /**
  * Create review HTML and add it to the webpage.
  */
+
 createReviewHTML = (review) => {
   const li = document.createElement('li');
 
@@ -170,6 +150,19 @@ createReviewHTML = (review) => {
   divSec.appendChild(comments);
 
   return li;
+}
+
+/**
+ * Get current restaurant from page URL
+ * to get the restaurants name for breadcrumbs
+ */
+
+fetchRestaurantFromURL2 = () => {
+  const id = getParameterByName('id');
+  console.log(id);
+  DBHelper.fetchRestaurantById(id)
+    .then(fillBreadcrumb);
+
 }
 
 /**
