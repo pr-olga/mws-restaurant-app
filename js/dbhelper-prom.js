@@ -3,6 +3,17 @@
  */
 class DBHelper {
 
+/**
+ * Create IDB
+ */
+/* static createIDB(){
+    return idb.open('restaurant', 1, function(upgradeDb) {
+        var store = upgradeDb.createObjectStore('restaurants', {
+         keyPath: 'id'
+       });
+     });
+} */
+
     /**
      * Fetch all restaurants.
      * http://localhost:1337/restaurants

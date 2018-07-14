@@ -7,7 +7,9 @@ const gulp = require('gulp'),
     resizer = require('gulp-images-resizer'),
     image = require('gulp-image'),
     plumber = require('gulp-plumber'),
-    rename = require('gulp-rename');
+    rename = require('gulp-rename'),
+    babel = require('gulp-babel'),
+    browserify = require('gulp-browserify');
 
 gulp.task('resize', function (cb) {
     return (gulp.src('img/*')
@@ -54,15 +56,25 @@ gulp.task('sass', function () {
 });
 
 // beatify the code separately if needed
-gulp.task('beutify',  function() {
+gulp.task('beautify',  function() {
     return gulp.src('css/styles.css')
         .pipe(cssbeautify())
         .pipe(gulp.dest('css/style.css'));
 });
 
+//transpiling for idb promised library
+gulp.task('scripts', function() {
+    gulp.src(['js/db.js'])
+    .pipe(babel({
+        presets: ["es2015"]
+    })).pipe(browserify())
+         .pipe(gulp.dest('js/db-fin'));
+});
+
 gulp.task('watch', function () {
     gulp.watch(["*.html", "*/*.css", "*/*.js", "*.*"]).on('change', reload);
     gulp.watch(['sass/*/*.scss', 'sass/*.scss'],  ['sass']);
+    gulp.watch(['js/db.js'],  ['scripts']);
 });
 
-gulp.task('default', ['browser-sync', 'watch']);
+gulp.task('default', ['browser-sync',  'watch']);

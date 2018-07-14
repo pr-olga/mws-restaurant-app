@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 /**
  * Fetch all neighborhoods and set their HTML.
  */
-fetchNeighborhoods = () => {
+function fetchNeighborhoods  () {
     DBHelper.fetchNeighborhoods()
         .then(fillNeighborhoodsHTML);
 }
@@ -65,7 +65,7 @@ fillCuisinesHTML = (cuisines) => {
 /**
  * Initialize leaflet map, called from HTML.
  */
-initMap = () => {
+function initMap ()  {
     self.newMap = L.map('map', {
         center: [40.722216, -73.987501],
         zoom: 12,
@@ -110,7 +110,7 @@ updateRestaurants = () => {
 
     DBHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood)
         .then(resetRestaurants)
-        .then(fillRestaurantsHTML);
+         .then(fillRestaurantsHTML);
 }
 
 /**
@@ -133,7 +133,7 @@ resetRestaurants = (restaurants) => {
 /**
  * Create all restaurants HTML and add them to the webpage.
  */
-fillRestaurantsHTML = (restaurants = self.restaurants) => {
+ fillRestaurantsHTML = (restaurants = self.restaurants) => {
     const ul = document.getElementById('restaurants-list');
     restaurants.forEach(restaurant => {
         ul.append(createRestaurantHTML(restaurant));
@@ -144,7 +144,7 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
 /**
  * Create restaurant HTML.
  */
-createRestaurantHTML = (restaurant) => {
+ createRestaurantHTML = (restaurant) => {
     const li = document.createElement('li');
 
     const link = document.createElement('a');

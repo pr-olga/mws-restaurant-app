@@ -13,20 +13,28 @@
   "author": "pr-olga",
   "license": "ISC",
   "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-core": "^6.26.3",
+    "babel-preset-es2015": "^6.24.1",
     "browser-sync": "^2.24.4",
     "csscomb": "^4.2.0",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^5.0.0",
+    "gulp-babel": "^7.0.1",
+    "gulp-browserify": "^0.5.1",
+    "gulp-concat": "^2.6.1",
     "gulp-cssbeautify": "^1.0.0",
     "gulp-csscomb": "^3.0.8",
     "gulp-image": "^4.3.0",
     "gulp-images-resizer": "0.0.5",
     "gulp-plumber": "^1.2.0",
     "gulp-rename": "^1.3.0",
-    "gulp-sass": "^4.0.1"
+    "gulp-sass": "^4.0.1",
+    "idb": "^2.1.3"
   },
   "bugs": {
     "url": "https://github.com/pr-olga/mws-restaurant-stage-1/issues"
   },
-  "homepage": "https://github.com/pr-olga/mws-restaurant-stage-1#readme"
+  "homepage": "https://github.com/pr-olga/mws-restaurant-stage-1#readme",
+  "dependencies": {}
 }
