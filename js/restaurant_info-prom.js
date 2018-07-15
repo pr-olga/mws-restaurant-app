@@ -32,7 +32,7 @@ initMap = () => {
       }).addTo(newMap);
       return DBHelper.mapMarkerForRestaurant(restaurant, newMap);
     });
-}
+};
 
 
 
@@ -46,7 +46,7 @@ fetchRestaurantFromURL = () => {
   DBHelper.fetchRestaurantById(id)
     .then(fillRestaurantHTML);
 
-}
+};
 
 
 
@@ -61,17 +61,17 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   address.innerHTML = restaurant.address;
 
   const image = document.getElementById('restaurant-img');
-  image.className = 'restaurant-img'
+  image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
   // add alt attribute to the image
   image.alt = DBHelper.imageAltForRestaurant(restaurant);
 
   const imageSmall = document.getElementById('picture');
-  imageSmall.className = 'restaurant-img'
+  imageSmall.className = 'restaurant-img';
   imageSmall.srcset = DBHelper.smallImageUrlForRestaurant(restaurant);
 
   const imageBig = document.getElementById('picture--big');
-  imageBig.className = 'restaurant-img'
+  imageBig.className = 'restaurant-img';
   imageBig.srcset = DBHelper.imageUrlForRestaurant(restaurant);
 
 
@@ -114,7 +114,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   });
   container.appendChild(ul);
 
-}
+};
 
 /**
  * Create review HTML and add it to the webpage.
@@ -137,7 +137,7 @@ createReviewHTML = (review) => {
 
   // wrap two second p to create a black header
   const divSec = document.createElement('div');
-  divSec.classList.add("div-content");
+  divSec.classList.add('div-content');
   li.appendChild(divSec);
 
 
@@ -150,7 +150,7 @@ createReviewHTML = (review) => {
   divSec.appendChild(comments);
 
   return li;
-}
+};
 
 /**
  * Get current restaurant from page URL
@@ -163,7 +163,7 @@ fetchRestaurantFromURL2 = () => {
   DBHelper.fetchRestaurantById(id)
     .then(fillBreadcrumb);
 
-}
+};
 
 /**
  * Add restaurant name to the breadcrumb navigation menu
@@ -173,7 +173,7 @@ fillBreadcrumb = (restaurant = self.restaurant) => {
   const li = document.createElement('li');
   li.innerHTML = restaurant.name;
   breadcrumb.appendChild(li);
-}
+};
 
 /**
  * Get a parameter by name from page URL.
@@ -190,4 +190,4 @@ getParameterByName = (name, url) => {
     return '';
   console.log(url);
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
-}
+};

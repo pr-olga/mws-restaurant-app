@@ -113,7 +113,7 @@ initMap = () => {
       'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
     id: 'mapbox.streets'
   }).addTo(newMap);
-}
+};
 
 /**
  * Map marker for a restaurant.
@@ -132,11 +132,11 @@ function mapMarkerForRestaurant(restaurants) {
       title: restauranta.name,
       alt: restauranta.name,
       url: restauranta.id
-    })
+    });
     marker.addTo(newMap);
 
     //Add markers for current restaurants to the map.
-    marker.on("click", onClick => {
+    marker.on('click', onClick => {
       window.location.href = marker.options.url;
     });
   });
