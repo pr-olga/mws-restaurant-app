@@ -3,15 +3,16 @@
  */
 class DBHelper {
 
-/**
- * Create IDB
- *
- * @static
- * @param {*} dbPromise
- * @returns
- * @memberof DBHelper
- */
-static createIDB(dbPromise) {
+  /**
+   * Create IDB
+   *
+   * @static
+   * @param {*} dbPromise
+   * @returns
+   * @memberof DBHelper
+   */
+
+  static createIDB(dbPromise) {
     var dbPromise = idb.open('restaurant', 1, function (upgradeDb) {
       var store = upgradeDb.createObjectStore('restaurants', {
         keyPath: 'id'
@@ -19,25 +20,6 @@ static createIDB(dbPromise) {
       store.createIndex('name', 'name');
     });
     return dbPromise;
-  }
-
-  /**
-   * Fetch all restaurants from server
-   * http://localhost:1337/restaurants
-   */
-  static fetchRestaurants() {
-    return fetch('http://localhost:1337/restaurants')
-      .then(function (response) {
-        if (!response.ok) {
-          throw Error(response.statusText);
-        }
-        // Read the response as json.
-        return response.json();
-      })
-      .catch(function (error) {
-        console.log('Looks like there was a problem: \n', error);
-        return error;
-      });
   }
 
 
@@ -50,9 +32,8 @@ static createIDB(dbPromise) {
    * @memberof DBHelper
    */
 
-
   static populateIDB() {
-    return DBHelper.fetchRestaurants()
+    return DBHelper.fetchRestaurantsFromServer()
       .then((restaurants) => {
         // put the data into db
         DBHelper.createIDB()
@@ -64,6 +45,72 @@ static createIDB(dbPromise) {
             });
             return tx.complete;
           });
+      });
+  }
+
+  /**
+   * Get the data from the DB
+   *
+   * @static
+   * @returns
+   * @memberof DBHelper
+   */
+
+  static fetchRestaurantsFromIDB() {
+    return DBHelper.createIDB()
+      .then((db) => {
+        const tx = db.transaction('restaurants', 'readonly');
+        const store = tx.objectStore('restaurants');
+        return store.getAll();
+      });
+  }
+
+  /**
+   * Fetch all restaurants from server
+   * http://localhost:1337/restaurants
+   */
+
+   static fetchRestaurantsFromServer() {
+    return fetch('http://localhost:1337/restaurants')
+      .then(function (response) {
+        if (!response.ok) {
+          throw Error(response.statusText);
+        }
+        // console.log("fetching");
+        // Read the response as json.
+        return response.json();
+      })
+      .catch(function (error) {
+        console.log('Looks like there was a problem: \n', error);
+        return error;
+      });
+  }
+
+
+  /**
+   * Fetch restaurants either from db or from the network
+   * The function guarantees that the db is always filled.
+   * @static
+   * @returns response
+   * @memberof DBHelper
+   */
+
+  static fetchRestaurants() {
+    return DBHelper.fetchRestaurantsFromIDB()
+      .then((response) => {
+        if (response == "") {
+          // console.log("empty");
+          // if the storage is empty, fetch from the server und populate the db
+          return DBHelper.fetchRestaurantsFromServer()
+            .then((data) => {
+              DBHelper.populateIDB(data);
+              // console.log("filled");
+              return data;
+            });
+        } else {
+          return response;
+        }
+
       });
   }
 
