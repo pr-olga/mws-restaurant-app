@@ -4,16 +4,28 @@ const gulp = require('gulp'),
   sass = require('gulp-sass'),
   autoprefixer = require('gulp-autoprefixer'),
   cssbeautify = require('gulp-cssbeautify'),
+  cssminify = require('gulp-clean-css'),
+  htmlminify = require('gulp-htmlmin'),
   resizer = require('gulp-images-resizer'),
   image = require('gulp-image'),
   plumber = require('gulp-plumber'),
   rename = require('gulp-rename'),
   babel = require('gulp-babel'),
   browserify = require('gulp-browserify'),
-  eslint = require('gulp-eslint');
+  eslint = require('gulp-eslint'),
+  jsminify = require('gulp-minify');
 
 
-gulp.task('resize', function (cb) {
+gulp.task('browser-sync', function() {
+  return browserSync.init({
+    server: {
+      baseDir: './dist'
+    }
+  });
+});
+
+
+gulp.task('resize', function(cb) {
   return (gulp.src('img/*')
     .pipe(resizer({
       width: 400,
@@ -26,7 +38,7 @@ gulp.task('resize', function (cb) {
     .pipe(gulp.dest('img'), cb));
 });
 
-gulp.task('image', ['resize'], function () {
+gulp.task('image', ['resize'], function() {
   console.log('>---Starting Images function---<');
   gulp.src(['img/*_small.jpg'])
     .pipe(image({
@@ -38,33 +50,67 @@ gulp.task('image', ['resize'], function () {
     .pipe(gulp.dest('img'));
 });
 
-
-gulp.task('browser-sync', function () {
-  return browserSync.init({
-    server: {
-      baseDir: './'
-    }
-  });
-});
-
 // creating the task SASS
-// Compile sass into readable .css
-gulp.task('sass', function () {
+// and copy into dist
+gulp.task('sass', function() {
   gulp.src(['sass/*.scss'])
     .pipe(plumber())
     .pipe(sass())
     .pipe(autoprefixer('last 2 versions'))
+    .pipe(cssminify())
+     .pipe(rename({
+      suffix: '.min'
+    }))
+    .pipe(gulp.dest('dist/css/'));
+});
+
+// beautify the code separately if needed
+gulp.task('beautify', function() {
+  return gulp.src('css/styles.css')
+    .pipe(cssbeautify())
     .pipe(gulp.dest('css/'));
 });
 
-// beatify the code separately if needed
-gulp.task('beautify',  function() {
-  return gulp.src('css/styles.css')
-    .pipe(cssbeautify())
-    .pipe(gulp.dest('css/style.css'));
+// copy minified html into dist
+gulp.task('copyHTML', function() {
+  return gulp.src('*.html')
+  .pipe(htmlminify({collapseWhitespace: true}))
+    .pipe(gulp.dest('dist/'));
+
+});
+
+// copy imgs into dist
+gulp.task('copyIMG', function() {
+  return gulp.src('img/*')
+    .pipe(gulp.dest('dist/img'));
+
+});
+
+//minify JS
+gulp.task('minifyJS', function() {
+  gulp.src(['js/*.js'])
+    .pipe(jsminify({
+      ext: {
+        min: '.min.js'
+      }
+    }))
+    .pipe(gulp.dest('dist/js/'));
+});
+
+// minify app.js and service worker
+gulp.task('minifyJS--SW', function() {
+  gulp.src(['app.js', 'sw.js'])
+    .pipe(jsminify({
+      ext: {
+        min: '.min.js'
+      }
+    }))
+    .pipe(gulp.dest('dist/'));
 });
 
 //transpiling for idb promised library
+// did not work appropriately
+// utilize if necesary
 gulp.task('scripts', function() {
   gulp.src(['js/db.js'])
     .pipe(babel({
@@ -73,25 +119,23 @@ gulp.task('scripts', function() {
     .pipe(gulp.dest('js/db-fin'));
 });
 
-
-gulp.task('eslint', function () {
-  return gulp.src(['js/*.js'])
-  // eslint() attaches the lint output to the "eslint" property
-  // of the file object so it can be used by other modules.
+// utilize if necesary
+gulp.task('eslint', function() {
+  return gulp.src(['js/dbhelper-prom.js', 'js/main-prom.js', 'js/restaurant_info-prom.js', 'sw.js', 'app.js'])
     .pipe(eslint())
-  // eslint.format() outputs the lint results to the console.
-  // Alternatively use eslint.formatEach() (see Docs).
     .pipe(eslint.format())
-  // To have the process exit with an error code (1) on
-  // lint error, return the stream and pipe to failAfterError last.
     .pipe(eslint.failAfterError());
 });
 
-gulp.task('watch', function () {
+gulp.task('watch', function() {
   gulp.watch(['*.html', '*/*.css', '*/*.js', '*.*']).on('change', reload);
-  gulp.watch(['sass/*/*.scss', 'sass/*.scss'],  ['sass']);
-  gulp.watch(['js/db.js'],  ['scripts']);
-/*   gulp.watch(['js/*.js'],  ['eslint']); */
+  gulp.watch(['sass/*/*.scss', 'sass/*.scss'], ['sass']);
+  gulp.watch(['js/*.js'], ['minifyJS']);
+  gulp.watch(['app.js', 'sw.js'], ['minifyJS--SW']);
+  gulp.watch(['*.html'], ['copyHTML']);
+  // utilize if necesary
+  /* gulp.watch(['js/dbhelper-prom.js', 'js/main-prom.js', 'js/restaurant_info-prom.js', 'sw.js', 'app.js'],  ['eslint']); */
 });
 
-gulp.task('default', ['browser-sync',  'watch']);
+
+gulp.task('default', ['browser-sync', 'copyHTML', 'copyIMG', 'minifyJS', 'minifyJS--SW', 'watch']);
