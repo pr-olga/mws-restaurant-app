@@ -59,11 +59,29 @@ self.addEventListener('activate', function(e) {
 
 self.addEventListener('fetch', function(event) {
   event.respondWith(
-    // open the certain cache
-    caches.open('version1').then(function(cache) {
-      return cache.match(event.request).then(function(response) {
-        return response || fetch(event.request);
-      });
+    caches.match(event.request)
+
+    .then(function(response) {
+      if (response) {
+        return response;
+      }
+      //test
+      var requestClone = event.request.clone();
+      return fetch(requestClone)
+        .then(function(response) {
+          if (!response || response.status !== 200 ) {
+            return response;
+          }
+
+          var responseClone = response.clone();
+          caches.open('version1').then(function(cache) {
+
+            cache.put(event.request, responseClone);
+            return response;
+
+          });
+
+        });
     })
   );
 });
