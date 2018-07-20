@@ -31,6 +31,7 @@ nav {
     }
   }
 }
+
 #breadcrumb {
   margin: 0;
   padding: 10px 40px 16px;
@@ -46,8 +47,7 @@ nav {
     }
     a {
       color: #aa2e00;
-      text-decoration: none;
-      // Add a color on mouse-over
+      text-decoration: none; // Add a color on mouse-over
       &:hover {
         color: #01447e;
         text-decoration: underline;
@@ -98,4 +98,20 @@ nav {
 
 .leaflet-control-zoom-out {
   display: block;
+}
+
+#modal {
+  display: none;
+  position: fixed;
+  z-index: 10012;
+  bottom: 0;
+  right: 0;
+  max-height: calc(100% - 48px);
+  max-width: calc(100% - 48px);
+  margin: 24px;
+  padding: 12px;
+  border-radius: 2px;
+  box-shadow: 0 17px 17px rgba(0, 0, 0, .15), 0 27px 55px rgba(0, 0, 0, .3);
+  background: #fff;
+  overflow: auto;
 }

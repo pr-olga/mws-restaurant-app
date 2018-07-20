@@ -17,3 +17,14 @@ li>a:focus img {
   opacity: .4;
   outline: 2px solid $blue;
 }
+
+.btn {
+  margin: 15px 15px 15px 0px;
+  padding: 12px;
+  border: 1px solid #aa2e00;
+  background-color: #aa2e00;
+  color: #fff;
+  font-size: 10pt;
+  text-align: center;
+  text-transform: uppercase;
+}
