@@ -2,7 +2,7 @@
 
 ## Project Part 2: Development Modifications
 
-- Ajax proceeds with fetch: The files that includes this code has the ending __-prom__.
+- Ajax proceeds with fetch: The files that include this code has the ending __-prom__.
 - The data from server ('http://localhost:1337/restaurants') is cached in the IDB _restaurants_.
 - The data is retrieved from the cache (IDB) and, if the cache is empty, is catched form server und put into the cache.
 - The fetching response in the Service Worker is cloned; in this case the cache is fetched on the single restaurant pages as well.
@@ -10,7 +10,7 @@
 - The most of files are minified: The files has the ending __.min__.
 - Development workflow is modified according to the development/production stages:
     - new Gulp tasks: copyHTML (incl. minify and add the suffix), copyJS (incl. minify and add the suffix), copyIMG.
-    - Server in  _browesersync_ is adjusted to the production folder _dist_.
+    - Server in  _browsersync_ is adjusted to the production folder _dist_.
 - _eslint_, _babel_ and _browserify_ is added to test/control the code. They are not included into default/watch task.
 
 
