@@ -120,7 +120,7 @@ class DBHelper {
    */
 
   static fetchRestaurantById(id) {
-    // fetch all restaurants with proper error handling.
+    // fetch all restaurants.
     return DBHelper.fetchRestaurants()
       .then(restaurants => {
         const restaurant = restaurants.find(r => r.id == id);
@@ -130,7 +130,7 @@ class DBHelper {
 
 
   /**
-   * Fetch restaurants by a cuisine type with proper error handling.
+   * Fetch restaurants by a cuisine type.
    */
   static fetchRestaurantByCuisine(cuisine) {
     // Fetch all restaurants  with proper error handling
@@ -145,7 +145,7 @@ class DBHelper {
   }
 
   /**
-   * Fetch restaurants by a neighborhood with proper error handling.
+   * Fetch restaurants by a neighborhood.
    */
   static fetchRestaurantByNeighborhood(neighborhood) {
     // Fetch all restaurants
@@ -160,7 +160,7 @@ class DBHelper {
   }
 
   /**
-   * Fetch restaurants by a cuisine and a neighborhood with proper error handling.
+   * Fetch restaurants by a cuisine and a neighborhood.
    */
   static fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood) {
     // Fetch all restaurants
@@ -180,7 +180,7 @@ class DBHelper {
   }
 
   /**
-   * Fetch all neighborhoods with proper error handling.
+   * Fetch all neighborhoods.
    */
   static fetchNeighborhoods() {
     // Fetch all restaurants
@@ -196,7 +196,7 @@ class DBHelper {
   }
 
   /**
-   * Fetch all cuisines with proper error handling.
+   * Fetch all cuisines.
    */
   static fetchCuisines() {
     // Fetch all restaurants

@@ -1,6 +1,20 @@
 # Mobile Web Specialist Certification Course
 
-## Development Modifications: Fixing SW
+## Project Part 2: Development Modifications
+
+- Ajax proceeds with fetch: The files that includes this code has the ending __-prom__.
+- The data from server ('http://localhost:1337/restaurants') is cached in the IDB _restaurants_.
+- The data is retrieved from the cache (IDB) and, if the cache is empty, is catched form server und put into the cache.
+- The fetching response in the Service Worker is cloned; in this case the cache is fetched on the single restaurant pages as well.
+- External CSS-files are statish placed on the bottom in order to increase the perfomance; the manifest.json is included in the production file; a pop-up window is created to inform the users about installation of PWA.
+- The most of files are minified: The files has the ending __.min__.
+- Development workflow is modified according to the development/production stages:
+    - new Gulp tasks: copyHTML (incl. minify and add the suffix), copyJS (incl. minify and add the suffix), copyIMG.
+    - Server in  _browesersync_ is adjusted to the production folder _dist_.
+- _eslint_, _babel_ and _browserify_ is added to test/control the code. They are not included into default/watch task.
+
+
+## Project Part 1: Development Modifications: Fixing SW
 
 - cache.open() was added to fetch event. The fetch event did not happend, that is why, the method for opening the certain cache was added.
 - the path to the cache files was changed: "/" -> "./"
