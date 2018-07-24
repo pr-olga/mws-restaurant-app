@@ -13,7 +13,8 @@ const gulp = require('gulp'),
   babel = require('gulp-babel'),
   browserify = require('gulp-browserify'),
   eslint = require('gulp-eslint'),
-  jsminify = require('gulp-minify');
+  jsminify = require('gulp-minify'),
+  inlinesource = require('gulp-inline-source');
 
 
 gulp.task('browser-sync', function() {
@@ -71,10 +72,11 @@ gulp.task('beautify', function() {
     .pipe(gulp.dest('css/'));
 });
 
-// copy minified html into dist
+// copy minified html into dist + inline source
 gulp.task('copyHTML', function() {
   return gulp.src('*.html')
   .pipe(htmlminify({collapseWhitespace: true}))
+  /* .pipe(inlinesource()) */
     .pipe(gulp.dest('dist/'));
 
 });
