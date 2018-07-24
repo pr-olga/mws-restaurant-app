@@ -12,6 +12,7 @@
     - new Gulp tasks: copyHTML (incl. minify and add the suffix), copyJS (incl. minify and add the suffix), copyIMG.
     - Server in  _browsersync_ is adjusted to the production folder _dist_.
 - _eslint_, _babel_ and _browserify_ is added to test/control the code. They are not included into default/watch task.
+- The _images_ in the DB were extended (s. last commit on https://github.com/pr-olga/mws-restaurant-stage-2)
 
 
 ## Project Part 1: Development Modifications: Fixing SW
