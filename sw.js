@@ -41,7 +41,7 @@ var cacheFiles = [
 self.addEventListener('install', function(e) {
   e.waitUntil(
     caches.open(staticCacheName).then(function(cache) {
-       return cache.addAll(cacheFiles);
+      return cache.addAll(cacheFiles);
     })
   );
 });
@@ -60,31 +60,21 @@ self.addEventListener('activate', function(e) {
   return self.clients.claim();
 });
 
-self.addEventListener('fetch', function(event) {
-  event.respondWith(
-    caches.match(event.request)
+self.addEventListener('fetch', event => {
+  const storageUrl = event.request.url.split(/[?#]/)[0];
 
-    .then(function(response) {
-      if (response) {
-        return response;
-      }
-
-      var requestClone = event.request.clone();
-      return fetch(requestClone)
-        .then(function(response) {
-          if (!response || response.status !== 200 ) {
-            return response;
-          }
-
-          var responseClone = response.clone();
-          caches.open('version1').then(function(cache) {
-
-            cache.put(event.request, responseClone);
-            return response;
-
+  if (storageUrl.startsWith(self.location.origin)) {
+    event.respondWith(
+      caches.match(storageUrl).then(function(response) {
+        return response || fetch(event.request).then((response) => {
+          var resp = response.clone()
+          var req = event.request;
+          caches.open(staticCacheName).then(function(cache) {
+            cache.put(req, resp);
           });
-
+          return response;
         });
-    })
-  );
+      })
+    );
+  }
 });

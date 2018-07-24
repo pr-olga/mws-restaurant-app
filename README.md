@@ -4,9 +4,9 @@
 
 - Ajax proceeds with fetch: The files that include this code has the ending __-prom__.
 - The data from server ('http://localhost:1337/restaurants') is cached in the IDB _restaurants_.
-- The data is retrieved from the cache (IDB) and, if the cache is empty, is catched form server und put into the cache.
+- The data is retrieved from the cache (IDB) and, if the cache is empty, is catched from the  server und put into the cache.
 - The fetching response in the Service Worker is cloned; in this case, the cache is fetched on the single restaurant pages as well.
-- External CSS-files are statish placed on the bottom in order to increase the perfomance; the manifest.json is included in the production file; a pop-up window is created to inform the users about installation of PWA.
+- External CSS-files are static placed on the bottom in order to increase the perfomance; the manifest.json is included in the production file; a pop-up window is created to inform the users about installation of PWA.
 - The most of files are minified: The files has the ending __.min__.
 - Development workflow is modified according to the development/production stages:
     - new Gulp tasks: copyHTML (incl. minify and add the suffix), copyJS (incl. minify and add the suffix), copyIMG.
