@@ -67,7 +67,11 @@ self.addEventListener('fetch', event => {
     event.respondWith(
       caches.match(storageUrl).then(function(response) {
         return response || fetch(event.request).then((response) => {
-          var resp = response.clone()
+          var resp = response.clone();
+          // Check if we received a valid response
+          if (!response || response.status !== 200 || response.type !== 'basic') {
+            return response;
+          }
           var req = event.request;
           caches.open(staticCacheName).then(function(cache) {
             cache.put(req, resp);
