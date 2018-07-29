@@ -13,7 +13,7 @@ class DBHelper {
    */
 
   static createIDB(dbPromise) {
-    var dbPromise = idb.open('restaurant', 1, function (upgradeDb) {
+    var dbPromise = idb.open('restaurant', 1, function(upgradeDb) {
       var store = upgradeDb.createObjectStore('restaurants', {
         keyPath: 'id'
       });
@@ -37,10 +37,10 @@ class DBHelper {
       .then((restaurants) => {
         // put the data into db
         DBHelper.createIDB()
-          .then(function (db) {
+          .then(function(db) {
             var tx = db.transaction('restaurants', 'readwrite');
             var restaurantStore = tx.objectStore('restaurants');
-            restaurants.forEach(function (restaurant) {
+            restaurants.forEach(function(restaurant) {
               restaurantStore.put(restaurant);
             });
             return tx.complete;
@@ -72,7 +72,7 @@ class DBHelper {
 
   static fetchRestaurantsFromServer() {
     return fetch('http://localhost:1337/restaurants')
-      .then(function (response) {
+      .then(function(response) {
         if (!response.ok) {
           throw Error(response.statusText);
         }
@@ -80,7 +80,7 @@ class DBHelper {
         // Read the response as json.
         return response.json();
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log('Looks like there was a problem: \n', error);
         return error;
       });
@@ -222,20 +222,21 @@ class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    return (`./img/${restaurant.photograph}`);
-  }
-  /**
-   * Restaurant SMALL image URL.
-   */
-  static smallImageUrlForRestaurant(restaurant) {
-    return (`./img/${restaurant.photographSmall} 1x, /img/${restaurant.photograph} 2x`);
+    var screenWidth = window.innerWidth;
+    if (screenWidth < 400) {
+      // Load mobile image
+      return (`./img/${restaurant.photograph}_small.jpg`);
+    } else {
+       // Load desktop image
+      return (`./img/${restaurant.photograph}.jpg`);
+    }
   }
 
   /**
    * ALT Description for URL.
    */
   static imageAltForRestaurant(restaurant) {
-    return (`${restaurant.alt}`);
+    return (`Photo of ${restaurant.name} Restaurant`);
   }
 
   /**

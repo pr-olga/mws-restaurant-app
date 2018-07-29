@@ -151,25 +151,10 @@ createRestaurantHTML = (restaurant) => {
   link.href = DBHelper.urlForRestaurant(restaurant);
   link.className = 'link--restaurants';
 
-
-  // extend the img to picture
-  const picture = document.createElement('picture');
-  const srcMobile = document.createElement('source');
-  const srcDesktop = document.createElement('source');
   const image = document.createElement('img');
 
   li.append(link);
-  link.append(picture);
-  picture.append(srcDesktop);
-  picture.append(srcMobile);
-  picture.append(image);
-
-
-  srcDesktop.srcset = DBHelper.imageUrlForRestaurant(restaurant);
-  srcDesktop.media = '(min-width: 400px)';
-  srcMobile.srcset = DBHelper.smallImageUrlForRestaurant(restaurant);
-  srcMobile.media = '(min-width: 0px)';
-
+  link.append(image);
 
   image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant);

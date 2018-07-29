@@ -66,15 +66,6 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   // add alt attribute to the image
   image.alt = DBHelper.imageAltForRestaurant(restaurant);
 
-  const imageSmall = document.getElementById('picture');
-  imageSmall.className = 'restaurant-img';
-  imageSmall.srcset = DBHelper.smallImageUrlForRestaurant(restaurant);
-
-  const imageBig = document.getElementById('picture--big');
-  imageBig.className = 'restaurant-img';
-  imageBig.srcset = DBHelper.imageUrlForRestaurant(restaurant);
-
-
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
 
