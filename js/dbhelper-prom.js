@@ -258,13 +258,13 @@ class DBHelper {
   // Reviews
 
     /**
-   * Fetch all reviews from server
+   * Fetch all reviews from server by its ID
    * http://localhost:1337/reviews
    */
 
-  static fetchReviewsFromServer() {
+  static fetchReviewsFromServer(id) {
 
-    return fetch('http://localhost:1337/reviews')
+    return fetch(`http://localhost:1337/reviews/?restaurant_id=${id}`)
       .then(function(response) {
         if (!response.ok) {
           throw Error(response.statusText);
@@ -280,19 +280,25 @@ class DBHelper {
       });
   }
 
+  static postReview(id, name, rating, comment){
+    event.preventDefault();
+    location.reload();
 
-    /**
-   * Fetch a review by its ID.
-   * http://localhost:1337/restaurants/{3}
-   */
-
-  static fetchReviewsById(id) {
-    // fetch all reviews for current restaurant.
-    return DBHelper.fetchReviewsFromServer()
-      .then(reviews => {
-        const review = reviews.filter(r => r.restaurant_id == id);
-
-        return review;
-      });
+    return fetch('http://localhost:1337/reviews/',
+    {
+     method: 'post',
+     mode: 'cors',
+     headers: {
+       'Accept' : 'application/json',
+       'Content-type': 'application/json'
+     },
+     body: JSON.stringify({
+       restaurant_id: id,
+       name: name,
+       rating: rating,
+       comments: comment})
+   })
+   .then((res) => res.json())
+   .then((data) => console.log(data))
   }
 }

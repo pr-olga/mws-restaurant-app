@@ -52,6 +52,16 @@
     <!-- end restaurant -->
     <!-- Beginning reviews -->
     <section id="reviews-container">
+        <form id="addReview">
+            <div>
+                <input type="text" id="new-name">
+            </div>
+            <div>
+                <input type="text" id="rating">
+            </div>
+            <textarea id="new-comment" cols="30" rows="10"></textarea>
+            <button type="submit"  onclick="getSubmittedReviews()">submit</button>
+        </form>
       <ul id="reviews-list"></ul>
     </section>
     <!-- End reviews -->
@@ -76,9 +86,9 @@
   <!-- Beginning scripts -->
   <!-- Database helpers -->
   <script type="application/javascript" charset="utf-8"  src="js/idb.js"></script>
-   <script type="text/javascript" src="js/dbhelper-prom.min.js"></script>
+   <script type="text/javascript" src="js/dbhelper-prom.js"></script>
   <!-- Main javascript file -->
-  <script type="text/javascript" src="js/restaurant_info-prom.min.js"></script>
+  <script type="text/javascript" src="js/restaurant_info-prom.js"></script>
   <!-- End scripts -->
   <script src="app.min.js"></script>
   <script>

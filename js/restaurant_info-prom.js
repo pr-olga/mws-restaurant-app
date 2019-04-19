@@ -52,11 +52,20 @@ fetchRestaurantFromURL = () => {
  */
 fetchReviewsFromURL = () => {
   const id = getParameterByName('id');
-  let allComm = DBHelper.fetchReviewsById(id)
+  DBHelper.fetchReviewsFromServer(id)
   .then(fillReviewsHTML);
 };
 
+getSubmittedReviews = () => {
+ // const form = document.getElementById('addReview');
 
+  const id = getParameterByName('id');
+  let name = document.getElementById('new-name').value;
+  let rating = document.getElementById('rating').value;
+  let comment = document.getElementById('new-comment').value;
+
+   DBHelper.postReview(id, name, rating, comment);
+}
 /**
  * Create restaurant HTML and add it to the webpage
  */
