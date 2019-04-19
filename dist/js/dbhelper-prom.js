@@ -253,4 +253,46 @@ class DBHelper {
     return marker;
   }
 
+
+
+  // Reviews
+
+    /**
+   * Fetch all reviews from server
+   * http://localhost:1337/reviews
+   */
+
+  static fetchReviewsFromServer() {
+
+    return fetch('http://localhost:1337/reviews')
+      .then(function(response) {
+        if (!response.ok) {
+          throw Error(response.statusText);
+        }
+        // console.log("fetching");
+        // Read the response as json.
+        return response.json();
+      })
+      .catch(function(error) {
+        console.log('Looks like there was a problem: \n', error);
+
+        return error;
+      });
+  }
+
+
+    /**
+   * Fetch a review by its ID.
+   * http://localhost:1337/restaurants/{3}
+   */
+
+  static fetchReviewsById(id) {
+    // fetch all reviews for current restaurant.
+    return DBHelper.fetchReviewsFromServer()
+      .then(reviews => {
+        const review = reviews.filter(r => r.restaurant_id == id);
+
+        return review;
+      });
+  }
 }

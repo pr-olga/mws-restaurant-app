@@ -7,6 +7,7 @@ var newMap;
 document.addEventListener('DOMContentLoaded', () => {
   initMap();
   fetchRestaurantFromURL();
+  fetchReviewsFromURL();
   fetchRestaurantFromURL2();
 });
 
@@ -42,12 +43,18 @@ initMap = () => {
  */
 fetchRestaurantFromURL = () => {
   const id = getParameterByName('id');
-  console.log(id);
   DBHelper.fetchRestaurantById(id)
     .then(fillRestaurantHTML);
-
 };
 
+/**
+ * Get reviews for current restaurant.
+ */
+fetchReviewsFromURL = () => {
+  const id = getParameterByName('id');
+  let allComm = DBHelper.fetchReviewsById(id)
+  .then(fillReviewsHTML);
+};
 
 
 /**
@@ -87,25 +94,28 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
       hours.appendChild(row);
     }
   }
-  // fill reviews
+};
+
+fillReviewsHTML = (review = self.review) => {
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h3');
   title.innerHTML = 'Reviews';
   container.appendChild(title);
 
-  if (!restaurant.reviews) {
+  if (!review) {
     const noReviews = document.createElement('p');
     noReviews.innerHTML = 'No reviews yet!';
     container.appendChild(noReviews);
     return;
   }
-  const ul = document.getElementById('reviews-list');
-  restaurant.reviews.forEach(review => {
-    ul.appendChild(createReviewHTML(review));
-  });
-  container.appendChild(ul);
 
-};
+  const ul = document.getElementById('reviews-list');
+  review.forEach(rev => {
+    ul.appendChild(createReviewHTML(rev));
+  });
+
+  container.appendChild(ul);
+}
 
 /**
  * Create review HTML and add it to the webpage.
@@ -122,10 +132,10 @@ createReviewHTML = (review) => {
   name.innerHTML = review.name;
   div.appendChild(name);
 
-  const date = document.createElement('p');
+  /* const date = document.createElement('p');
   date.innerHTML = review.date;
   div.appendChild(date);
-
+ */
   // wrap two second p to create a black header
   const divSec = document.createElement('div');
   divSec.classList.add('div-content');
