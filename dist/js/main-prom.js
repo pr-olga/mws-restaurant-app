@@ -166,6 +166,18 @@ createRestaurantHTML = (restaurant) => {
   name.innerHTML = restaurant.name;
   li.append(name);
 
+  const favourite = document.createElement('button');
+  favourite.innerHTML = "+";
+  favourite.classList.add('btn--fav');
+  favourite.onclick = function() {
+    //change the status
+    const isFav = !restaurant.is_favorite;
+    DBHelper.updateFavourite(restaurant.id, isFav);
+    //save the actual value
+    restaurant.is_favorite = !restaurant.is_favorite;
+  }
+  li.append(favourite);
+
   const neighborhood = document.createElement('p');
   neighborhood.innerHTML = restaurant.neighborhood;
   li.append(neighborhood);

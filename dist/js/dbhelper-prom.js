@@ -301,4 +301,15 @@ class DBHelper {
    .then((res) => res.json())
    .then((data) => console.log(data))
   }
+
+  static updateFavourite(id, isFavourite){
+
+    return fetch(`http://localhost:1337/restaurants/${id}/?is_favorite=${isFavourite}`,
+    {
+     method: 'put'
+    })
+   .then((res) => res.json())
+   .then((data) => console.log(data))
+
+  }
 }
