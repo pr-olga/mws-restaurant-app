@@ -119,7 +119,10 @@ fillReviewsHTML = (review = self.review) => {
   }
 
   const ul = document.getElementById('reviews-list');
-  review.forEach(rev => {
+  //sort reviews
+  let r = review.sort((a,b) => (a.id > b.id) ? -1 : ((b.id > a.id) ? 1 : 0));
+
+  r.forEach(rev => {
     ul.appendChild(createReviewHTML(rev));
   });
 

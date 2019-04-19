@@ -272,7 +272,7 @@ class DBHelper {
         // console.log("fetching");
         // Read the response as json.
         return response.json();
-      })
+       })
       .catch(function(error) {
         console.log('Looks like there was a problem: \n', error);
 
