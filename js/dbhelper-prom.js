@@ -4,7 +4,7 @@
 class DBHelper {
 
   /**
-   * Create IDB
+   * Create IDB Restaurants
    *
    * @static
    * @param {*} dbPromise
@@ -18,8 +18,28 @@ class DBHelper {
         keyPath: 'id'
       });
       store.createIndex('name', 'name');
+      store.createIndex('is_favorite', 'is_favorite');
     });
     return dbPromise;
+  }
+
+  /**
+   * Create IDB Reviews
+   *
+   * @static
+   * @param {*} dbPromiseReview
+   * @returns
+   * @memberof DBHelper
+   */
+
+  static createIDBReviews(dbPromiseReview) {
+    var dbPromiseReview = idb.open('review', 1, function(upgradeDb) {
+      var storeReview = upgradeDb.createObjectStore('reviews', {
+        keyPath: 'id'
+      });
+      storeReview.createIndex('restaurant_id', 'restaurant_id');
+    });
+    return dbPromiseReview;
   }
 
 
@@ -48,6 +68,31 @@ class DBHelper {
       });
   }
 
+   /**
+   * Put the fetched data into IDB
+   *
+   * @static
+   * @param {*} reviews
+   * @returns
+   * @memberof DBHelper
+   */
+
+  static populateIDBReviews() {
+    return DBHelper.fetchReviewsFromServer()
+      .then((reviews) => {
+        // put the data into db
+        DBHelper.createIDBReviews()
+          .then(function(db) {
+            var tx = db.transaction('reviews', 'readwrite');
+            var reviewStore = tx.objectStore('reviews');
+            reviews.forEach(function(review) {
+              reviewStore.put(review);
+            });
+            return tx.complete;
+          });
+      });
+  }
+
   /**
    * Get the data from the DB
    *
@@ -61,6 +106,23 @@ class DBHelper {
       .then((db) => {
         const tx = db.transaction('restaurants', 'readonly');
         const store = tx.objectStore('restaurants');
+        return store.getAll();
+      });
+  }
+
+  /**
+   * Get the data from the DB
+   *
+   * @static
+   * @returns
+   * @memberof DBHelper
+   */
+
+  static fetchReviewsFromIDB() {
+    return DBHelper.createIDBReviews()
+      .then((db) => {
+        const tx = db.transaction('reviews', 'readonly');
+        const store = tx.objectStore('reviews');
         return store.getAll();
       });
   }
@@ -104,6 +166,33 @@ class DBHelper {
           return DBHelper.fetchRestaurantsFromServer()
             .then((data) => {
               DBHelper.populateIDB(data);
+              // console.log("filled");
+              return data;
+            });
+        } else {
+          return response;
+        }
+
+      });
+  }
+
+  /**
+   * Fetch restaurants either from db or from the network
+   * The function guarantees that the db is always filled.
+   * @static
+   * @returns response
+   * @memberof DBHelper
+   */
+
+  static fetchReviews() {
+    return DBHelper.fetchReviewsFromIDB()
+      .then((response) => {
+        if (response == '') {
+          // console.log("empty");
+          // if the storage is empty, fetch from the server und populate the db
+          return DBHelper.fetchReviewsFromServer()
+            .then((data) => {
+              DBHelper.populateIDBReviews(data);
               // console.log("filled");
               return data;
             });
@@ -227,7 +316,7 @@ class DBHelper {
       // Load mobile image
       return (`./img/${restaurant.photograph}_small.jpg`);
     } else {
-       // Load desktop image
+      // Load desktop image
       return (`./img/${restaurant.photograph}.jpg`);
     }
   }
@@ -257,14 +346,14 @@ class DBHelper {
 
   // Reviews
 
-    /**
+  /**
    * Fetch all reviews from server by its ID
    * http://localhost:1337/reviews
    */
 
-  static fetchReviewsFromServer(id) {
+  static fetchReviewsFromServer() {
 
-    return fetch(`http://localhost:1337/reviews/?restaurant_id=${id}`)
+    return fetch('http://localhost:1337/reviews')
       .then(function(response) {
         if (!response.ok) {
           throw Error(response.statusText);
@@ -272,7 +361,7 @@ class DBHelper {
         // console.log("fetching");
         // Read the response as json.
         return response.json();
-       })
+      })
       .catch(function(error) {
         console.log('Looks like there was a problem: \n', error);
 
@@ -280,36 +369,60 @@ class DBHelper {
       });
   }
 
-  static postReview(id, name, rating, comment){
+  /**
+   * Fetch a review by its ID.
+   */
+
+  static fetchReviewsById(id) {
+    // fetch all reviews for current restaurant.
+    return DBHelper.fetchReviews()
+      .then(reviews => {
+        const review = reviews.filter(r => r.restaurant_id == id);
+
+        return review;
+      });
+  }
+
+
+  static postReview(id, name, rating, comment) {
     event.preventDefault();
     location.reload();
 
-    return fetch('http://localhost:1337/reviews/',
-    {
-     method: 'post',
-     mode: 'cors',
-     headers: {
-       'Accept' : 'application/json',
-       'Content-type': 'application/json'
-     },
-     body: JSON.stringify({
-       restaurant_id: id,
-       name: name,
-       rating: rating,
-       comments: comment})
-   })
-   .then((res) => res.json())
-   .then((data) => console.log(data))
+    return fetch('http://localhost:1337/reviews/', {
+        method: 'post',
+        mode: 'cors',
+        headers: {
+          'Accept': 'application/json',
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify({
+          restaurant_id: parseInt(id),
+          name: name,
+          rating: parseInt(rating),
+          comments: comment
+        })
+      })
+      .then((res) => res.json())
+      .then((review) => {
+        // put the data into db
+        DBHelper.createIDBReviews()
+          .then(function(db) {
+            var tx = db.transaction('reviews', 'readwrite');
+            var reviewStore = tx.objectStore('reviews');
+              reviewStore.add(review);
+
+            return tx.complete;
+          });
+      });
   }
 
-  static updateFavourite(id, isFavourite){
+  static updateFavourite(id, isFavourite) {
 
-    return fetch(`http://localhost:1337/restaurants/${id}/?is_favorite=${isFavourite}`,
-    {
-     method: 'put'
-    })
-   .then((res) => res.json())
-   .then((data) => console.log(data))
+    return fetch(`http://localhost:1337/restaurants/${id}/?is_favorite=${isFavourite}`, {
+        method: 'put'
+      })
+      .then((res) => res.json())
+      .then((data) => console.log(data))
 
   }
 }

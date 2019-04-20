@@ -52,7 +52,7 @@ fetchRestaurantFromURL = () => {
  */
 fetchReviewsFromURL = () => {
   const id = getParameterByName('id');
-  DBHelper.fetchReviewsFromServer(id)
+  DBHelper.fetchReviewsById(id)
   .then(fillReviewsHTML);
 };
 
