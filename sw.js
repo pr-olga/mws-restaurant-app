@@ -15,7 +15,7 @@ var cacheFiles = [
   './img/10.jpg',
   './icon-192x192.png',
   './icon-512x512.png',
-  './js/idb.js',
+  './js/idb.min.js',
   './js/main-prom.min.js',
   './js/dbhelper-prom.min.js',
   './js/restaurant_info-prom.min.js',
