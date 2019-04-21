@@ -169,13 +169,17 @@ createRestaurantHTML = (restaurant) => {
   const favourite = document.createElement('button');
   favourite.innerHTML = "+";
   favourite.classList.add('btn--fav');
+
   favourite.onclick = function() {
     //change the status
     const isFav = !restaurant.is_favorite;
     DBHelper.updateFavourite(restaurant.id, isFav);
     //save the actual value
     restaurant.is_favorite = !restaurant.is_favorite;
+    favourite.classList.remove(!restaurant.is_favorite);
+    favourite.classList.add(restaurant.is_favorite);
   }
+  favourite.classList.add(restaurant.is_favorite);
   li.append(favourite);
 
   const neighborhood = document.createElement('p');
