@@ -69,7 +69,7 @@ class DBHelper {
       });
   }
 
-   /**
+  /**
    * Put the fetched data into IDB
    *
    * @static
@@ -385,8 +385,20 @@ class DBHelper {
   }
 
 
-  static postReview(id, name, rating, comment) {
+  static postReview(reviewObj) {
     event.preventDefault();
+
+    let offlineObj = {
+      name: 'postReview',
+      data: reviewObj,
+      object_type: 'review'
+    };
+
+    if (!navigator.onLine) {
+      DBHelper.sendDataOnline(offlineObj);
+      return;
+    }
+
     location.reload();
 
     return fetch('http://localhost:1337/reviews/', {
@@ -396,12 +408,7 @@ class DBHelper {
           'Accept': 'application/json',
           'Content-type': 'application/json'
         },
-        body: JSON.stringify({
-          restaurant_id: parseInt(id),
-          name: name,
-          rating: parseInt(rating),
-          comments: comment
-        })
+        body: JSON.stringify(reviewObj)
       })
       .then((res) => res.json())
       .then((review) => {
@@ -410,11 +417,28 @@ class DBHelper {
           .then(function(db) {
             var tx = db.transaction('reviews', 'readwrite');
             var reviewStore = tx.objectStore('reviews');
-              reviewStore.add(review);
+            reviewStore.add(review);
 
             return tx.complete;
           });
       });
+  }
+
+  static sendDataOnline(offlineObj) {
+    localStorage.setItem('data', JSON.stringify(offlineObj.data));
+    //write an message
+    alert("Unfortunately, you are offline. Your review has been saved and will be added if your are online!")
+    // reset data in the form
+    document.getElementById('addReview').reset();
+
+    window.addEventListener('online', function(event){
+      let data = JSON.parse(localStorage.getItem('data'));
+      if (data !== null) {
+        DBHelper.postReview(offlineObj.data);
+        console.log(offlineObj.data);
+        localStorage.removeItem('data');
+      }
+    })
   }
 
   static updateFavourite(id, isFavourite) {
@@ -437,5 +461,5 @@ class DBHelper {
             return tx.complete;
           });
       });
-    }
+  }
 }

@@ -64,7 +64,13 @@ getSubmittedReviews = () => {
   let rating = document.getElementById('rating').value;
   let comment = document.getElementById('new-comment').value;
 
-   DBHelper.postReview(id, name, rating, comment);
+  let reviewObj = {
+    restaurant_id: parseInt(id),
+    name: name,
+    rating: parseInt(rating),
+    comments: comment
+  };
+   DBHelper.postReview(reviewObj);
 }
 /**
  * Create restaurant HTML and add it to the webpage
