@@ -53,11 +53,11 @@ fetchRestaurantFromURL = () => {
 fetchReviewsFromURL = () => {
   const id = getParameterByName('id');
   DBHelper.fetchReviewsById(id)
-  .then(fillReviewsHTML);
+    .then(fillReviewsHTML);
 };
 
 getSubmittedReviews = () => {
- // const form = document.getElementById('addReview');
+  // const form = document.getElementById('addReview');
 
   const id = getParameterByName('id');
   let name = document.getElementById('new-name').value;
@@ -67,10 +67,17 @@ getSubmittedReviews = () => {
   let reviewObj = {
     restaurant_id: parseInt(id),
     name: name,
-    rating: parseInt(rating),
+    rating: rating,
     comments: comment
   };
-   DBHelper.postReview(reviewObj);
+
+  if (reviewObj.name === "" || reviewObj.rating === "" || reviewObj.comments === "") {
+    event.preventDefault();
+    alert("Please fill all fields in the form!");
+    return;
+  } else {
+    DBHelper.postReview(reviewObj);
+  }
 }
 /**
  * Create restaurant HTML and add it to the webpage
@@ -126,7 +133,7 @@ fillReviewsHTML = (review = self.review) => {
 
   const ul = document.getElementById('reviews-list');
   //sort reviews
-  let r = review.sort((a,b) => (a.id > b.id) ? -1 : ((b.id > a.id) ? 1 : 0));
+  let r = review.sort((a, b) => (a.id > b.id) ? -1 : ((b.id > a.id) ? 1 : 0));
 
   r.forEach(rev => {
     ul.appendChild(createReviewHTML(rev));
