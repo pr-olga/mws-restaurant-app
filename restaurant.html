@@ -52,15 +52,19 @@
     <!-- end restaurant -->
     <!-- Beginning reviews -->
     <section id="reviews-container">
+      <h3>Share your review!</h3>
         <form id="addReview">
             <div>
-                <input type="text" id="new-name">
+              <label for="new-name">Author</label></br>
+                <input type="text" id="new-name" name="name">
             </div>
             <div>
-                <input type="text" id="rating">
+                <label for="rating">Rating</label></br>
+                <input type="text" id="rating" name="rating">
             </div>
-            <textarea id="new-comment" cols="30" rows="10"></textarea>
-            <button type="submit"  onclick="getSubmittedReviews()">submit</button>
+            <label for="new-comment">Comments</label></br>
+            <textarea id="new-comment" cols="30" rows="10" name="comments"></textarea>
+            <button type="submit" class="btn--submit" onclick="getSubmittedReviews()">submit</button>
         </form>
       <ul id="reviews-list"></ul>
     </section>
