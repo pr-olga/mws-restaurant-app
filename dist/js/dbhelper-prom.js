@@ -38,6 +38,7 @@ class DBHelper {
         keyPath: 'id'
       });
       storeReview.createIndex('restaurant_id', 'restaurant_id');
+      storeReview.createIndex('createdAt', 'createdAt');
     });
     return dbPromiseReview;
   }
@@ -421,8 +422,20 @@ class DBHelper {
     return fetch(`http://localhost:1337/restaurants/${id}/?is_favorite=${isFavourite}`, {
         method: 'put'
       })
-      .then((res) => res.json())
-      .then((data) => console.log(data))
+      .then(() => {
+        // put the is_favorite data into db
+        DBHelper.createIDB()
+          .then(function(db) {
+            var tx = db.transaction('restaurants', 'readwrite');
+            var store = tx.objectStore('restaurants');
+            store.get(id)
+              .then(restaurant => {
+                restaurant.is_favorite = isFavourite;
+                store.put(restaurant);
+              });
 
-  }
+            return tx.complete;
+          });
+      });
+    }
 }
