@@ -99,7 +99,7 @@ class DBHelper {
     return DBHelper.fetchRestaurantsFromIDB()
       .then((response) => {
         if (response == '') {
-          // console.log("empty");
+           console.log("empty");
           // if the storage is empty, fetch from the server und populate the db
           return DBHelper.fetchRestaurantsFromServer()
             .then((data) => {

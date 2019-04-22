@@ -1,4 +1,5 @@
 @media screen and (min-width: 700px) {
+
   .inside #map-container,
   #map-container {
     position: fixed;
@@ -7,29 +8,41 @@
     height: 100%;
     right: 0;
   }
+
   .inside #map,
   #map {
     height: 100%;
   }
+
   #content {
     order: 1;
     width: 50%;
   }
+
   #restaurant-container {
     order: 0;
     width: 45%;
     margin: 130px 0 0 0;
     padding: 0 40px 0;
   }
+
   #reviews-container {
     order: 2;
     width: 50%;
     margin: 0;
   }
+
   #reviews-list li {
     width: 80%;
   }
+
   .filter-options {
     margin-top: 80px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .block--header {
+    justify-content: inherit;
   }
 }
