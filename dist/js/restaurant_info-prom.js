@@ -35,9 +35,6 @@ initMap = () => {
     });
 };
 
-
-
-
 /**
  * Get current restaurant from page URL.
  */
@@ -52,7 +49,7 @@ fetchRestaurantFromURL = () => {
  */
 fetchReviewsFromURL = () => {
   const id = getParameterByName('id');
-  DBHelper.fetchReviewsById(id)
+  DBHelper.fetchReviews(id)
     .then(fillReviewsHTML);
 };
 

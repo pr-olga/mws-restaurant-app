@@ -24,27 +24,6 @@ class DBHelper {
   }
 
   /**
-   * Create IDB Reviews
-   *
-   * @static
-   * @param {*} dbPromiseReview
-   * @returns
-   * @memberof DBHelper
-   */
-
-  static createIDBReviews(dbPromiseReview) {
-    var dbPromiseReview = idb.open('review', 1, function(upgradeDb) {
-      var storeReview = upgradeDb.createObjectStore('reviews', {
-        keyPath: 'id'
-      });
-      storeReview.createIndex('restaurant_id', 'restaurant_id');
-      storeReview.createIndex('createdAt', 'createdAt');
-    });
-    return dbPromiseReview;
-  }
-
-
-  /**
    * Put the fetched data into IDB
    *
    * @static
@@ -70,31 +49,6 @@ class DBHelper {
   }
 
   /**
-   * Put the fetched data into IDB
-   *
-   * @static
-   * @param {*} reviews
-   * @returns
-   * @memberof DBHelper
-   */
-
-  static populateIDBReviews() {
-    return DBHelper.fetchReviewsFromServer()
-      .then((reviews) => {
-        // put the data into db
-        DBHelper.createIDBReviews()
-          .then(function(db) {
-            var tx = db.transaction('reviews', 'readwrite');
-            var reviewStore = tx.objectStore('reviews');
-            reviews.forEach(function(review) {
-              reviewStore.put(review);
-            });
-            return tx.complete;
-          });
-      });
-  }
-
-  /**
    * Get the data from the DB
    *
    * @static
@@ -107,23 +61,6 @@ class DBHelper {
       .then((db) => {
         const tx = db.transaction('restaurants', 'readonly');
         const store = tx.objectStore('restaurants');
-        return store.getAll();
-      });
-  }
-
-  /**
-   * Get the data from the DB
-   *
-   * @static
-   * @returns
-   * @memberof DBHelper
-   */
-
-  static fetchReviewsFromIDB() {
-    return DBHelper.createIDBReviews()
-      .then((db) => {
-        const tx = db.transaction('reviews', 'readonly');
-        const store = tx.objectStore('reviews');
         return store.getAll();
       });
   }
@@ -167,33 +104,6 @@ class DBHelper {
           return DBHelper.fetchRestaurantsFromServer()
             .then((data) => {
               DBHelper.populateIDB(data);
-              // console.log("filled");
-              return data;
-            });
-        } else {
-          return response;
-        }
-
-      });
-  }
-
-  /**
-   * Fetch restaurants either from db or from the network
-   * The function guarantees that the db is always filled.
-   * @static
-   * @returns response
-   * @memberof DBHelper
-   */
-
-  static fetchReviews() {
-    return DBHelper.fetchReviewsFromIDB()
-      .then((response) => {
-        if (response == '') {
-          // console.log("empty");
-          // if the storage is empty, fetch from the server und populate the db
-          return DBHelper.fetchReviewsFromServer()
-            .then((data) => {
-              DBHelper.populateIDBReviews(data);
               // console.log("filled");
               return data;
             });
@@ -259,11 +169,11 @@ class DBHelper {
         let results = restaurants;
         if (cuisine != 'all') { // filter by cuisine
           results = results.filter(r => r.cuisine_type == cuisine);
-          console.log(results);
+          //console.log(results);
         }
         if (neighborhood != 'all') { // filter by neighborhood
           results = results.filter(r => r.neighborhood == neighborhood);
-          console.log(neighborhood);
+          //console.log(neighborhood);
         }
         return results;
       });
@@ -347,26 +257,45 @@ class DBHelper {
 
   // Reviews
 
-  /**
-   * Fetch all reviews from server by its ID
-   * http://localhost:1337/reviews
+    /**
+   * Fetch reviews either from db or from the network
+   * The function guarantees that the db is always filled.
+   * @static
+   * @returns response
+   * @memberof DBHelper
    */
 
-  static fetchReviewsFromServer() {
-
-    return fetch('http://localhost:1337/reviews')
-      .then(function(response) {
-        if (!response.ok) {
-          throw Error(response.statusText);
+  static fetchReviews(id) {
+    return DBHelper.fetchReviewsFromIDB(id)
+      .then((response) => {
+        if (response == '') {
+          //console.log("empty");
+          // if the storage is empty, fetch from the server und populate the db
+          DBHelper.populateIDB(id);
+          return DBHelper.fetchReviewsById(id);
+        } else {
+          return response;
         }
-        // console.log("fetching");
-        // Read the response as json.
-        return response.json();
-      })
-      .catch(function(error) {
-        console.log('Looks like there was a problem: \n', error);
+      });
+  }
 
-        return error;
+
+  /**
+   * Get the data from the DB
+   *
+   * @static
+   * @returns
+   * @memberof DBHelper
+   */
+
+  static fetchReviewsFromIDB(id) {
+    return DBHelper.createIDBReviews()
+      .then((db) => {
+        const tx = db.transaction('reviews', 'readonly');
+        const store = tx.objectStore('reviews');
+        const index = store.index('restaurant_id');
+
+        return index.getAll(id);
       });
   }
 
@@ -375,16 +304,67 @@ class DBHelper {
    */
 
   static fetchReviewsById(id) {
-    // fetch all reviews for current restaurant.
-    return DBHelper.fetchReviews()
-      .then(reviews => {
-        const review = reviews.filter(r => r.restaurant_id == id);
 
-        return review;
+    return fetch(`http://localhost:1337/reviews/?restaurant_id=${id}`)
+      .then(function(response) {
+
+        return response.json();
       });
   }
 
+  /**
+   * Put the fetched data into IDB
+   *
+   * @static
+   * @param {*} restaurants
+   * @returns
+   * @memberof DBHelper
+   */
 
+  static populateIDB(id) {
+    return DBHelper.fetchReviewsById(id)
+    .then((reviews) => {
+      // put the data into db
+      DBHelper.createIDBReviews(id)
+        .then(function(db) {
+          var tx = db.transaction('reviews', 'readwrite');
+          var reviewStore = tx.objectStore('reviews');
+          reviews.forEach(function(review) {
+            reviewStore.put(review);
+          });
+
+          return tx.complete;
+        });
+      });
+  }
+
+  /**
+   * Create IDB Reviews
+   *
+   * @static
+   * @param {*} dbPromiseReview
+   * @returns
+   * @memberof DBHelper
+   */
+
+  static createIDBReviews(dbPromiseReview) {
+    var dbPromiseReview = idb.open('review', 1, function(upgradeDb) {
+      var storeReview = upgradeDb.createObjectStore('reviews', {
+        keyPath: 'id'
+      });
+      storeReview.createIndex('restaurant_id', 'restaurant_id');
+    });
+    return dbPromiseReview;
+  }
+
+  /**
+   * Post new review
+   *
+   * @static
+   * @param {*} reviewObj
+   * @returns
+   * @memberof DBHelper
+   */
   static postReview(reviewObj) {
     event.preventDefault();
 
@@ -424,6 +404,14 @@ class DBHelper {
       });
   }
 
+  /**
+   * If offline, save data to local storage
+   * check if online then push it to IDB and server
+   *
+   * @static
+   * @param {*} offlineObj
+   * @memberof DBHelper
+   */
   static sendDataOnline(offlineObj) {
     localStorage.setItem('data', JSON.stringify(offlineObj.data));
     //write an message
@@ -431,16 +419,25 @@ class DBHelper {
     // reset data in the form
     document.getElementById('addReview').reset();
 
-    window.addEventListener('online', function(event){
+    window.addEventListener('online', function(event) {
       let data = JSON.parse(localStorage.getItem('data'));
       if (data !== null) {
         DBHelper.postReview(offlineObj.data);
-        console.log(offlineObj.data);
+        //console.log(offlineObj.data);
         localStorage.removeItem('data');
       }
     })
   }
 
+  /**
+   * Update favorite status on main page
+   *
+   * @static
+   * @param {*} id
+   * @param {*} isFavourite
+   * @returns
+   * @memberof DBHelper
+   */
   static updateFavourite(id, isFavourite) {
 
     return fetch(`http://localhost:1337/restaurants/${id}/?is_favorite=${isFavourite}`, {
