@@ -271,7 +271,7 @@ class DBHelper {
         if (response == '') {
           //console.log("empty");
           // if the storage is empty, fetch from the server und populate the db
-          DBHelper.populateIDB(id);
+          DBHelper.populateIDBReviews(id);
           return DBHelper.fetchReviewsById(id);
         } else {
           return response;
@@ -321,7 +321,7 @@ class DBHelper {
    * @memberof DBHelper
    */
 
-  static populateIDB(id) {
+  static populateIDBReviews(id) {
     return DBHelper.fetchReviewsById(id)
     .then((reviews) => {
       // put the data into db
