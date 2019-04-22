@@ -86,6 +86,17 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const favourite = document.getElementById('button');
   favourite.innerHTML = "♥";
 
+  favourite.onclick = function() {
+    //change the status
+    const isFav = !restaurant.is_favorite;
+    DBHelper.updateFavourite(restaurant.id, isFav);
+    //save the actual value
+    restaurant.is_favorite = !restaurant.is_favorite;
+    favourite.classList.remove(!restaurant.is_favorite);
+    favourite.classList.add(restaurant.is_favorite);
+  }
+  favourite.classList.add(restaurant.is_favorite);
+
   const address = document.getElementById('restaurant-address');
   address.innerHTML = restaurant.address;
 
@@ -117,6 +128,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
     }
   }
 };
+
 
 fillReviewsHTML = (review = self.review) => {
   const container = document.getElementById('reviews-container');

@@ -44,5 +44,11 @@
 @media screen and (min-width: 1200px) {
   .block--header {
     justify-content: inherit;
+    &__element{
+      width: auto;
+    }
+  }
+  .btn--fav-single {
+    margin: 20px 40px 20px 20px;
   }
 }

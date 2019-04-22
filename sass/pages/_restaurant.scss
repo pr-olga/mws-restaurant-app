@@ -120,4 +120,8 @@
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: space-between;
+
+  &__element{
+    width: 50%;
+  }
 }
